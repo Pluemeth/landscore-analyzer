@@ -221,7 +221,7 @@ const listingImages = [
 
 export const listings: Listing[] = Array.from({ length: 16 }, (_, i) => {
   const rnd = mulberry32(i * 2657 + 91);
-  const zone = zones[i % 10];
+  const zone = zones[i % 10]!;
   const sizeRai = Math.round((1 + rnd() * 24) * 10) / 10;
   const status: "sale" | "rent" = i % 3 === 2 ? "rent" : "sale";
   const salePrice = Math.round(sizeRai * 400 * zone.pricePerSqWah);
@@ -239,10 +239,10 @@ export const listings: Listing[] = Array.from({ length: 16 }, (_, i) => {
     priceTHB: status === "sale" ? salePrice : rentPrice,
     roadDistanceKm: Math.round((zone.roadDistanceKm + rnd() * 2) * 10) / 10,
     updatedAt: `2026-0${1 + (i % 6)}-${String(day).padStart(2, "0")}`,
-    image: listingImages[i % listingImages.length],
-    owner: owners[i % owners.length],
-    poi: poiPool[i % poiPool.length],
-    utilities: utilityPool[i % utilityPool.length],
+    image: listingImages[i % listingImages.length]!,
+    owner: owners[i % owners.length]!,
+    poi: poiPool[i % poiPool.length]!,
+    utilities: utilityPool[i % utilityPool.length]!,
   };
 });
 
