@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as RankingRouteImport } from './routes/ranking'
 import { Route as ListingsIndexRouteImport } from './routes/listings.index'
@@ -24,6 +25,11 @@ const IndexRoute = IndexRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataSourcesRoute = DataSourcesRouteImport.update({
+  id: '/data-sources',
+  path: '/data-sources',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MethodologyRoute = MethodologyRouteImport.update({
@@ -50,6 +56,7 @@ const ListingsIdRoute = ListingsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/data-sources': typeof DataSourcesRoute
   '/methodology': typeof MethodologyRoute
   '/ranking': typeof RankingRoute
   '/listings/$id': typeof ListingsIdRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/data-sources': typeof DataSourcesRoute
   '/methodology': typeof MethodologyRoute
   '/ranking': typeof RankingRoute
   '/listings/$id': typeof ListingsIdRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/data-sources': typeof DataSourcesRoute
   '/methodology': typeof MethodologyRoute
   '/ranking': typeof RankingRoute
   '/listings/$id': typeof ListingsIdRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/data-sources'
     | '/methodology'
     | '/ranking'
     | '/listings/$id'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/data-sources'
     | '/methodology'
     | '/ranking'
     | '/listings/$id'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/data-sources'
     | '/methodology'
     | '/ranking'
     | '/listings/$id'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  DataSourcesRoute: typeof DataSourcesRoute
   MethodologyRoute: typeof MethodologyRoute
   RankingRoute: typeof RankingRoute
   ListingsIdRoute: typeof ListingsIdRoute
@@ -122,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-sources': {
+      id: '/data-sources'
+      path: '/data-sources'
+      fullPath: '/data-sources'
+      preLoaderRoute: typeof DataSourcesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/methodology': {
@@ -158,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  DataSourcesRoute: DataSourcesRoute,
   MethodologyRoute: MethodologyRoute,
   RankingRoute: RankingRoute,
   ListingsIdRoute: ListingsIdRoute,
