@@ -66,13 +66,13 @@ function mulberry32(seed: number) {
   };
 }
 
-function polygonAround(center: [number, number], seed: number): [number, number][] {
+function polygonAround(center: [number, number], seed: number, scale = 1): [number, number][] {
   const rnd = mulberry32(seed);
   const points: [number, number][] = [];
   const sides = 7;
   for (let i = 0; i < sides; i++) {
     const angle = (i / sides) * Math.PI * 2;
-    const r = 0.035 + rnd() * 0.028;
+    const r = (0.035 + rnd() * 0.028) * scale;
     points.push([center[0] + Math.cos(angle) * r * 1.25, center[1] + Math.sin(angle) * r]);
   }
   return points;
@@ -162,9 +162,12 @@ export const zones: Zone[] = seeds.map((s, i) => {
     roadDistanceKm: s.road,
     urbanGrowthPct: s.growth,
     center: s.center,
-    polygon: polygonAround(s.center, i * 131 + 7),
+    polygon: polygonAround(s.center, i * 131 + 7, 0.5),
   };
 });
+
+/** Zones ordered by potential score, highest first. */
+export const topZones = [...zones].sort((a, b) => b.score - a.score);
 
 export const majorRoads: [number, number][][] = [
   [
