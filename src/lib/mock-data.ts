@@ -6,6 +6,8 @@
 
 export type Bilingual = { th: string; en: string };
 
+import { thDistricts, thProvinces } from "./thailand-geo";
+
 export type Factors = {
   urban: number;
   road: number;
