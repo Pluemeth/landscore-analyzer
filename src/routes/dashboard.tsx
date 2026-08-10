@@ -58,7 +58,7 @@ function DashboardPage() {
   const [district, setDistrict] = useState("all");
   const [minScore, setMinScore] = useState(0);
   const [maxPrice, setMaxPrice] = useState(200000);
-  const [selectedId, setSelectedId] = useState<string | null>("z01");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const districts = useMemo(
     () =>
@@ -84,7 +84,7 @@ function DashboardPage() {
     [province, district, minScore, maxPrice],
   );
 
-  const selected = filtered.find((z) => z.id === selectedId) ?? null;
+  const selected = filtered.find((z) => z.id === selectedId) ?? filtered[0] ?? null;
 
   const breakdown = selected
     ? [
