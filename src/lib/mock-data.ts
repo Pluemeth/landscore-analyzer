@@ -76,7 +76,7 @@ function polygonAround(center: [number, number], seed: number): [number, number]
   return points;
 }
 
-const seeds: Array<{
+type Seed = {
   id: string;
   name: Bilingual;
   province: Bilingual;
@@ -87,22 +87,45 @@ const seeds: Array<{
   pop: number;
   road: number;
   growth: number;
-}> = [
-  { id: "z01", name: { th: "บางนา", en: "Bang Na" }, province: { th: "กรุงเทพมหานคร", en: "Bangkok" }, district: { th: "เขตบางนา", en: "Bang Na District" }, center: [100.6, 13.67], score: 91, price: 185000, pop: 8200, road: 0.4, growth: 12.4 },
-  { id: "z02", name: { th: "บางพลี", en: "Bang Phli" }, province: { th: "สมุทรปราการ", en: "Samut Prakan" }, district: { th: "อำเภอบางพลี", en: "Bang Phli" }, center: [100.72, 13.6], score: 88, price: 96000, pop: 4100, road: 0.9, growth: 15.8 },
-  { id: "z03", name: { th: "คลองหลวง", en: "Khlong Luang" }, province: { th: "ปทุมธานี", en: "Pathum Thani" }, district: { th: "อำเภอคลองหลวง", en: "Khlong Luang" }, center: [100.63, 14.06], score: 84, price: 72000, pop: 3300, road: 1.4, growth: 14.1 },
-  { id: "z04", name: { th: "ลาดกระบัง", en: "Lat Krabang" }, province: { th: "กรุงเทพมหานคร", en: "Bangkok" }, district: { th: "เขตลาดกระบัง", en: "Lat Krabang District" }, center: [100.79, 13.72], score: 82, price: 88000, pop: 3900, road: 1.1, growth: 11.2 },
-  { id: "z05", name: { th: "บางใหญ่", en: "Bang Yai" }, province: { th: "นนทบุรี", en: "Nonthaburi" }, district: { th: "อำเภอบางใหญ่", en: "Bang Yai" }, center: [100.4, 13.86], score: 79, price: 84000, pop: 3600, road: 0.7, growth: 10.6 },
-  { id: "z06", name: { th: "ลำลูกกา", en: "Lam Luk Ka" }, province: { th: "ปทุมธานี", en: "Pathum Thani" }, district: { th: "อำเภอลำลูกกา", en: "Lam Luk Ka" }, center: [100.79, 13.96], score: 76, price: 61000, pop: 2800, road: 1.8, growth: 12.9 },
-  { id: "z07", name: { th: "พระสมุทรเจดีย์", en: "Phra Samut Chedi" }, province: { th: "สมุทรปราการ", en: "Samut Prakan" }, district: { th: "อำเภอพระสมุทรเจดีย์", en: "Phra Samut Chedi" }, center: [100.55, 13.58], score: 71, price: 52000, pop: 2400, road: 2.4, growth: 8.7 },
-  { id: "z08", name: { th: "ไทรน้อย", en: "Sai Noi" }, province: { th: "นนทบุรี", en: "Nonthaburi" }, district: { th: "อำเภอไทรน้อย", en: "Sai Noi" }, center: [100.31, 13.98], score: 67, price: 38000, pop: 1500, road: 3.2, growth: 9.4 },
-  { id: "z09", name: { th: "หนองจอก", en: "Nong Chok" }, province: { th: "กรุงเทพมหานคร", en: "Bangkok" }, district: { th: "เขตหนองจอก", en: "Nong Chok District" }, center: [100.86, 13.85], score: 62, price: 33000, pop: 1200, road: 3.9, growth: 7.5 },
-  { id: "z10", name: { th: "บางบ่อ", en: "Bang Bo" }, province: { th: "สมุทรปราการ", en: "Samut Prakan" }, district: { th: "อำเภอบางบ่อ", en: "Bang Bo" }, center: [100.87, 13.6], score: 58, price: 29000, pop: 980, road: 4.4, growth: 6.8 },
-  { id: "z11", name: { th: "สามพราน", en: "Sam Phran" }, province: { th: "นครปฐม", en: "Nakhon Pathom" }, district: { th: "อำเภอสามพราน", en: "Sam Phran" }, center: [100.22, 13.73], score: 54, price: 31000, pop: 1400, road: 3.6, growth: 5.9 },
-  { id: "z12", name: { th: "บ้านโพธิ์", en: "Ban Pho" }, province: { th: "ฉะเชิงเทรา", en: "Chachoengsao" }, district: { th: "อำเภอบ้านโพธิ์", en: "Ban Pho" }, center: [101.05, 13.63], score: 49, price: 22000, pop: 720, road: 5.1, growth: 5.2 },
-  { id: "z13", name: { th: "ลาดหลุมแก้ว", en: "Lat Lum Kaeo" }, province: { th: "ปทุมธานี", en: "Pathum Thani" }, district: { th: "อำเภอลาดหลุมแก้ว", en: "Lat Lum Kaeo" }, center: [100.4, 14.05], score: 44, price: 19000, pop: 640, road: 5.8, growth: 4.3 },
-  { id: "z14", name: { th: "บางเลน", en: "Bang Len" }, province: { th: "นครปฐม", en: "Nakhon Pathom" }, district: { th: "อำเภอบางเลน", en: "Bang Len" }, center: [100.18, 14.02], score: 38, price: 14000, pop: 430, road: 7.2, growth: 3.1 },
-];
+};
+
+/** Provinces with the strongest land-market pressure get a score/price uplift. */
+const provinceTier: Record<number, number> = {
+  10: 30, 11: 24, 12: 22, 13: 20, 74: 18, 20: 20, 21: 14, 24: 16, 73: 16, 26: 12,
+  83: 16, 84: 14, 90: 14, 50: 16, 30: 10, 40: 10, 77: 10, 71: 10, 76: 8, 86: 8,
+};
+
+const seeds: Seed[] = thDistricts.map((d, i) => {
+  const province = thProvinces.find((p) => p.code === d.provinceCode)!;
+  const rnd = mulberry32(d.code * 31 + 17);
+  const isBangkok = province.code === 10;
+
+  // Spread districts deterministically inside the province bounding box.
+  const angle = ((i % 17) / 17) * Math.PI * 2 + rnd() * 0.9;
+  const spread = 0.28 + ((i % 5) / 5) * 0.6;
+  const center: [number, number] = [
+    Number((province.center[0] + Math.cos(angle) * province.radius[0] * spread).toFixed(4)),
+    Number((province.center[1] + Math.sin(angle) * province.radius[1] * spread).toFixed(4)),
+  ];
+
+  const tier = provinceTier[province.code] ?? 0;
+  const coreBonus = Math.max(0, 14 - (i % 17) * 1.6);
+  const score = Math.max(21, Math.min(96, Math.round(34 + tier + coreBonus + rnd() * 18)));
+  const price = Math.round((4000 + Math.pow(score / 100, 3.1) * 240000) * (0.82 + rnd() * 0.4));
+
+  return {
+    id: `z${d.code}`,
+    name: { th: d.th, en: d.en },
+    province: { th: province.th, en: province.en },
+    district: { th: `${isBangkok ? "เขต" : "อำเภอ"}${d.th}`, en: isBangkok ? `${d.en} District` : d.en },
+    center,
+    score,
+    price,
+    pop: Math.round(120 + Math.pow(score / 100, 2.8) * 9200 * (0.6 + rnd() * 0.8)),
+    road: Math.round((0.3 + (100 - score) / 12) * (0.6 + rnd() * 0.8) * 10) / 10,
+    growth: Math.round((1.5 + (score / 100) * 15 * (0.7 + rnd() * 0.6)) * 10) / 10,
+  };
+});
 
 export const zones: Zone[] = seeds.map((s, i) => {
   const rnd = mulberry32(i * 7919 + 13);
