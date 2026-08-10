@@ -67,7 +67,7 @@ function RankingPage() {
 
   const rows = allRows.slice(0, 200);
 
-  const top10 = allRows
+  const top10 = [...allRows]
     .sort((a, b) => b.score - a.score)
     .slice(0, 10)
     .map((z) => ({ name: pick(z.name), score: z.score }));
@@ -122,6 +122,34 @@ function RankingPage() {
               />
             </div>
             <div className="flex shrink-0 items-center gap-2">
+              <select
+                value={province}
+                onChange={(e) => {
+                  setProvince(e.target.value);
+                  setDistrict("all");
+                }}
+                className="max-w-[9rem] rounded-md border border-input bg-background px-2 py-2 text-xs"
+              >
+                <option value="all">{t("map.filter.province")}</option>
+                {provinces.map((p) => (
+                  <option key={p.en} value={p.en}>
+                    {pick(p)}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={district}
+                onChange={(e) => setDistrict(e.target.value)}
+                disabled={province === "all"}
+                className="max-w-[9rem] rounded-md border border-input bg-background px-2 py-2 text-xs"
+              >
+                <option value="all">{t("map.filter.district")}</option>
+                {districts.map((d) => (
+                  <option key={d.en} value={d.en}>
+                    {pick(d)}
+                  </option>
+                ))}
+              </select>
               <select
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as SortKey)}
