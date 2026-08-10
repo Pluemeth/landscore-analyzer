@@ -62,13 +62,15 @@ function DashboardPage() {
 
   const districts = useMemo(
     () =>
-      Array.from(
+      province === "all"
+        ? []
+        : Array.from(
         new Map(
           zones
-            .filter((z) => province === "all" || z.province.en === province)
+            .filter((z) => z.province.en === province)
             .map((z) => [z.district.en, z.district]),
         ).values(),
-      ),
+          ).sort((a, b) => a.en.localeCompare(b.en)),
     [province],
   );
 
