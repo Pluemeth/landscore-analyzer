@@ -151,6 +151,7 @@ function DashboardPage() {
                 <select
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
+                  disabled={province === "all"}
                   className="w-full rounded-md border border-input bg-background px-2 py-2 text-sm"
                 >
                   <option value="all">{t("map.filter.all")}</option>
