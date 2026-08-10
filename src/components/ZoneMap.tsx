@@ -160,7 +160,8 @@ export function ZoneMap({
             );
           })}
 
-        {shapes.map(({ zone, c }) => (
+        {showLabels &&
+          shapes.map(({ zone, c }) => (
           <g key={`l${zone.id}`} pointerEvents="none">
             <text
               x={c[0]}
@@ -178,7 +179,7 @@ export function ZoneMap({
                 : `${zone.score}`}
             </text>
           </g>
-        ))}
+          ))}
       </svg>
 
       <div className="absolute bottom-3 left-3 rounded-md border border-border bg-card/90 px-3 py-2 backdrop-blur">
