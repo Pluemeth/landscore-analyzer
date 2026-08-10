@@ -58,17 +58,19 @@ function DashboardPage() {
   const [district, setDistrict] = useState("all");
   const [minScore, setMinScore] = useState(0);
   const [maxPrice, setMaxPrice] = useState(200000);
-  const [selectedId, setSelectedId] = useState<string | null>("z01");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const districts = useMemo(
     () =>
-      Array.from(
+      province === "all"
+        ? []
+        : Array.from(
         new Map(
           zones
-            .filter((z) => province === "all" || z.province.en === province)
+            .filter((z) => z.province.en === province)
             .map((z) => [z.district.en, z.district]),
         ).values(),
-      ),
+          ).sort((a, b) => a.en.localeCompare(b.en)),
     [province],
   );
 
@@ -84,7 +86,7 @@ function DashboardPage() {
     [province, district, minScore, maxPrice],
   );
 
-  const selected = filtered.find((z) => z.id === selectedId) ?? null;
+  const selected = filtered.find((z) => z.id === selectedId) ?? filtered[0] ?? null;
 
   const breakdown = selected
     ? [
@@ -149,6 +151,7 @@ function DashboardPage() {
                 <select
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
+                  disabled={province === "all"}
                   className="w-full rounded-md border border-input bg-background px-2 py-2 text-sm"
                 >
                   <option value="all">{t("map.filter.all")}</option>

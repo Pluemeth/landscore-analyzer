@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
-import { formatTHB, scoreColor, zones } from "@/lib/mock-data";
+import { formatTHB, provinces, scoreColor, zones } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/ranking")({
   head: () => ({
@@ -33,24 +33,41 @@ function RankingPage() {
   const { t, pick } = useI18n();
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("score");
+  const [province, setProvince] = useState("all");
+  const [district, setDistrict] = useState("all");
 
-  const rows = useMemo(() => {
+  const districts = useMemo(
+    () =>
+      province === "all"
+        ? []
+        : Array.from(
+            new Map(
+              zones.filter((z) => z.province.en === province).map((z) => [z.district.en, z.district]),
+            ).values(),
+          ).sort((a, b) => a.en.localeCompare(b.en)),
+    [province],
+  );
+
+  const allRows = useMemo(() => {
     const q = query.trim().toLowerCase();
     return zones
       .filter(
         (z) =>
-          !q ||
+          (province === "all" || z.province.en === province) &&
+          (district === "all" || z.district.en === district) &&
+          (!q ||
           z.name.th.toLowerCase().includes(q) ||
           z.name.en.toLowerCase().includes(q) ||
           z.province.th.toLowerCase().includes(q) ||
-          z.province.en.toLowerCase().includes(q),
+            z.province.en.toLowerCase().includes(q)),
       )
       .slice()
       .sort((a, b) => b[sortKey] - a[sortKey]);
-  }, [query, sortKey]);
+  }, [query, sortKey, province, district]);
 
-  const top10 = zones
-    .slice()
+  const rows = allRows.slice(0, 200);
+
+  const top10 = [...allRows]
     .sort((a, b) => b.score - a.score)
     .slice(0, 10)
     .map((z) => ({ name: pick(z.name), score: z.score }));
@@ -105,6 +122,34 @@ function RankingPage() {
               />
             </div>
             <div className="flex shrink-0 items-center gap-2">
+              <select
+                value={province}
+                onChange={(e) => {
+                  setProvince(e.target.value);
+                  setDistrict("all");
+                }}
+                className="max-w-[9rem] rounded-md border border-input bg-background px-2 py-2 text-xs"
+              >
+                <option value="all">{t("map.filter.province")}</option>
+                {provinces.map((p) => (
+                  <option key={p.en} value={p.en}>
+                    {pick(p)}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={district}
+                onChange={(e) => setDistrict(e.target.value)}
+                disabled={province === "all"}
+                className="max-w-[9rem] rounded-md border border-input bg-background px-2 py-2 text-xs"
+              >
+                <option value="all">{t("map.filter.district")}</option>
+                {districts.map((d) => (
+                  <option key={d.en} value={d.en}>
+                    {pick(d)}
+                  </option>
+                ))}
+              </select>
               <select
                 value={sortKey}
                 onChange={(e) => setSortKey(e.target.value as SortKey)}

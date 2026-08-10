@@ -11,18 +11,32 @@ export type Layers = {
   centers: boolean;
 };
 
-const BOUNDS = { minLng: 100.08, maxLng: 101.18, minLat: 13.44, maxLat: 14.18 };
 const W = 1000;
 const H = 660;
+type Bounds = { minLng: number; maxLng: number; minLat: number; maxLat: number };
+const THAILAND: Bounds = { minLng: 97.3, maxLng: 105.7, minLat: 5.6, maxLat: 20.5 };
 
-function project([lng, lat]: [number, number]): [number, number] {
-  const x = ((lng - BOUNDS.minLng) / (BOUNDS.maxLng - BOUNDS.minLng)) * W;
-  const y = H - ((lat - BOUNDS.minLat) / (BOUNDS.maxLat - BOUNDS.minLat)) * H;
-  return [x, y];
+function boundsOf(zones: Zone[]): Bounds {
+  if (zones.length === 0) return THAILAND;
+  const lngs = zones.flatMap((z) => z.polygon.map((p) => p[0]));
+  const lats = zones.flatMap((z) => z.polygon.map((p) => p[1]));
+  const padLng = Math.max(0.12, (Math.max(...lngs) - Math.min(...lngs)) * 0.12);
+  const padLat = Math.max(0.08, (Math.max(...lats) - Math.min(...lats)) * 0.12);
+  return {
+    minLng: Math.min(...lngs) - padLng,
+    maxLng: Math.max(...lngs) + padLng,
+    minLat: Math.min(...lats) - padLat,
+    maxLat: Math.max(...lats) + padLat,
+  };
 }
 
-const toPath = (pts: [number, number][]) =>
-  pts.map((p, i) => `${i === 0 ? "M" : "L"}${project(p)[0].toFixed(1)},${project(p)[1].toFixed(1)}`).join(" ");
+function makeProject(b: Bounds) {
+  return ([lng, lat]: [number, number]): [number, number] => {
+    const x = ((lng - b.minLng) / (b.maxLng - b.minLng)) * W;
+    const y = H - ((lat - b.minLat) / (b.maxLat - b.minLat)) * H;
+    return [x, y];
+  };
+}
 
 export function ZoneMap({
   zones,
@@ -36,10 +50,19 @@ export function ZoneMap({
   onSelect: (id: string) => void;
 }) {
   const { t, pick } = useI18n();
+  const bounds = useMemo(() => boundsOf(zones), [zones]);
+  const project = useMemo(() => makeProject(bounds), [bounds]);
+  const toPath = useMemo(
+    () =>
+      (pts: [number, number][]) =>
+        pts.map((p, i) => `${i === 0 ? "M" : "L"}${project(p)[0].toFixed(1)},${project(p)[1].toFixed(1)}`).join(" "),
+    [project],
+  );
   const shapes = useMemo(
     () => zones.map((z) => ({ zone: z, d: `${toPath(z.polygon)} Z`, c: project(z.center) })),
-    [zones],
+    [zones, project, toPath],
   );
+  const showLabels = zones.length <= 60;
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-lg border border-border bg-card">
@@ -137,7 +160,8 @@ export function ZoneMap({
             );
           })}
 
-        {shapes.map(({ zone, c }) => (
+        {showLabels &&
+          shapes.map(({ zone, c }) => (
           <g key={`l${zone.id}`} pointerEvents="none">
             <text
               x={c[0]}
@@ -155,7 +179,7 @@ export function ZoneMap({
                 : `${zone.score}`}
             </text>
           </g>
-        ))}
+          ))}
       </svg>
 
       <div className="absolute bottom-3 left-3 rounded-md border border-border bg-card/90 px-3 py-2 backdrop-blur">
