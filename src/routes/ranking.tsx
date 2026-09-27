@@ -1,7 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, Search, TrendingUp } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
@@ -20,7 +29,8 @@ export const Route = createFileRoute("/ranking")({
       { property: "og:title", content: "Ranking & Report — Geo-Smart" },
       {
         property: "og:description",
-        content: "Compare the highest-potential emerging economic zones and export a summary report.",
+        content:
+          "Compare the highest-potential emerging economic zones and export a summary report.",
       },
     ],
   }),
@@ -42,7 +52,9 @@ function RankingPage() {
         ? []
         : Array.from(
             new Map(
-              zones.filter((z) => z.province.en === province).map((z) => [z.district.en, z.district]),
+              zones
+                .filter((z) => z.province.en === province)
+                .map((z) => [z.district.en, z.district]),
             ).values(),
           ).sort((a, b) => a.en.localeCompare(b.en)),
     [province],
@@ -56,9 +68,9 @@ function RankingPage() {
           (province === "all" || z.province.en === province) &&
           (district === "all" || z.district.en === district) &&
           (!q ||
-          z.name.th.toLowerCase().includes(q) ||
-          z.name.en.toLowerCase().includes(q) ||
-          z.province.th.toLowerCase().includes(q) ||
+            z.name.th.toLowerCase().includes(q) ||
+            z.name.en.toLowerCase().includes(q) ||
+            z.province.th.toLowerCase().includes(q) ||
             z.province.en.toLowerCase().includes(q)),
       )
       .slice()
@@ -82,7 +94,11 @@ function RankingPage() {
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={top10} margin={{ left: -18, right: 8, bottom: 40 }}>
-                <CartesianGrid stroke="var(--color-border)" strokeDasharray="3 3" vertical={false} />
+                <CartesianGrid
+                  stroke="var(--color-border)"
+                  strokeDasharray="3 3"
+                  vertical={false}
+                />
                 <XAxis
                   dataKey="name"
                   angle={-35}
@@ -90,7 +106,10 @@ function RankingPage() {
                   interval={0}
                   tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
                 />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }} />
+                <YAxis
+                  domain={[0, 100]}
+                  tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
+                />
                 <Tooltip
                   cursor={{ fill: "var(--color-muted)", opacity: 0.4 }}
                   contentStyle={{
@@ -191,7 +210,10 @@ function RankingPage() {
                     const last = z.priceHistory[z.priceHistory.length - 1]?.price ?? 1;
                     const trend = Math.round(((last - first) / first) * 100);
                     return (
-                      <tr key={z.id} className="border-b border-border/60 last:border-0 hover:bg-secondary/40">
+                      <tr
+                        key={z.id}
+                        className="border-b border-border/60 last:border-0 hover:bg-secondary/40"
+                      >
                         <td className="px-4 py-3 text-muted-foreground">{i + 1}</td>
                         <td className="px-4 py-3 font-medium text-foreground">{pick(z.name)}</td>
                         <td className="px-4 py-3 text-muted-foreground">{pick(z.province)}</td>
@@ -204,7 +226,9 @@ function RankingPage() {
                           </span>
                         </td>
                         <td className="px-4 py-3 text-muted-foreground">{z.urbanGrowthPct}%</td>
-                        <td className="px-4 py-3 text-muted-foreground">฿{formatTHB(z.pricePerSqWah)}</td>
+                        <td className="px-4 py-3 text-muted-foreground">
+                          ฿{formatTHB(z.pricePerSqWah)}
+                        </td>
                         <td className="px-4 py-3">
                           <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent">
                             <TrendingUp className="size-3.5" />+{trend}%

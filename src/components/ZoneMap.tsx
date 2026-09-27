@@ -53,9 +53,12 @@ export function ZoneMap({
   const bounds = useMemo(() => boundsOf(zones), [zones]);
   const project = useMemo(() => makeProject(bounds), [bounds]);
   const toPath = useMemo(
-    () =>
-      (pts: [number, number][]) =>
-        pts.map((p, i) => `${i === 0 ? "M" : "L"}${project(p)[0].toFixed(1)},${project(p)[1].toFixed(1)}`).join(" "),
+    () => (pts: [number, number][]) =>
+      pts
+        .map(
+          (p, i) => `${i === 0 ? "M" : "L"}${project(p)[0].toFixed(1)},${project(p)[1].toFixed(1)}`,
+        )
+        .join(" "),
     [project],
   );
   const shapes = useMemo(
@@ -66,10 +69,20 @@ export function ZoneMap({
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-lg border border-border bg-card">
-      <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" aria-label={t("map.title")}>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="h-full w-full"
+        role="img"
+        aria-label={t("map.title")}
+      >
         <defs>
           <pattern id="landuse" width="12" height="12" patternUnits="userSpaceOnUse">
-            <path d="M0,12 l12,-12" stroke="var(--color-foreground)" strokeOpacity="0.16" strokeWidth="1.5" />
+            <path
+              d="M0,12 l12,-12"
+              stroke="var(--color-foreground)"
+              strokeOpacity="0.16"
+              strokeWidth="1.5"
+            />
           </pattern>
           <linearGradient id="water" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.06" />
@@ -152,8 +165,21 @@ export function ZoneMap({
             const [x, y] = project(c.at);
             return (
               <g key={c.id} pointerEvents="none">
-                <circle cx={x} cy={y} r={7} fill="var(--color-accent)" stroke="var(--color-card)" strokeWidth={2} />
-                <text x={x + 12} y={y + 4} fontSize="15" fill="var(--color-foreground)" fillOpacity="0.85">
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={7}
+                  fill="var(--color-accent)"
+                  stroke="var(--color-card)"
+                  strokeWidth={2}
+                />
+                <text
+                  x={x + 12}
+                  y={y + 4}
+                  fontSize="15"
+                  fill="var(--color-foreground)"
+                  fillOpacity="0.85"
+                >
                   {pick(c.name)}
                 </text>
               </g>
@@ -162,23 +188,30 @@ export function ZoneMap({
 
         {showLabels &&
           shapes.map(({ zone, c }) => (
-          <g key={`l${zone.id}`} pointerEvents="none">
-            <text
-              x={c[0]}
-              y={c[1] - 2}
-              textAnchor="middle"
-              fontSize="16"
-              fontWeight="600"
-              fill="var(--color-foreground)"
-            >
-              {pick(zone.name)}
-            </text>
-            <text x={c[0]} y={c[1] + 16} textAnchor="middle" fontSize="14" fill="var(--color-foreground)" fillOpacity="0.7">
-              {layers.price
-                ? `฿${new Intl.NumberFormat("en-US").format(zone.pricePerSqWah)}`
-                : `${zone.score}`}
-            </text>
-          </g>
+            <g key={`l${zone.id}`} pointerEvents="none">
+              <text
+                x={c[0]}
+                y={c[1] - 2}
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="600"
+                fill="var(--color-foreground)"
+              >
+                {pick(zone.name)}
+              </text>
+              <text
+                x={c[0]}
+                y={c[1] + 16}
+                textAnchor="middle"
+                fontSize="14"
+                fill="var(--color-foreground)"
+                fillOpacity="0.7"
+              >
+                {layers.price
+                  ? `฿${new Intl.NumberFormat("en-US").format(zone.pricePerSqWah)}`
+                  : `${zone.score}`}
+              </text>
+            </g>
           ))}
       </svg>
 
