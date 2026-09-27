@@ -47,7 +47,10 @@ function AboutPage() {
             </h2>
             <ul className="mt-3 grid gap-2 sm:grid-cols-2">
               {audience.map((a) => (
-                <li key={a.key} className="flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm">
+                <li
+                  key={a.key}
+                  className="flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm"
+                >
                   <a.icon className="size-4 shrink-0 text-primary" />
                   <span className="truncate">{t(a.key)}</span>
                 </li>
@@ -77,7 +80,9 @@ function AboutPage() {
         </section>
 
         <section className="rounded-lg border border-border bg-card p-5">
-          <h2 className="font-display text-sm font-semibold text-foreground">{t("contact.title")}</h2>
+          <h2 className="font-display text-sm font-semibold text-foreground">
+            {t("contact.title")}
+          </h2>
           <form
             className="mt-4 space-y-3"
             onSubmit={(e) => {
@@ -104,7 +109,9 @@ function AboutPage() {
               </div>
             ))}
             <div>
-              <label className="mb-1 block text-xs text-muted-foreground">{t("contact.message")}</label>
+              <label className="mb-1 block text-xs text-muted-foreground">
+                {t("contact.message")}
+              </label>
               <textarea
                 required
                 rows={5}

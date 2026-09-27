@@ -51,8 +51,12 @@ function MethodologyPage() {
                   <s.icon className="size-5" />
                 </span>
                 <div className="min-w-0">
-                  <h2 className="font-display text-sm font-semibold text-foreground">{t(s.title)}</h2>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{t(s.desc)}</p>
+                  <h2 className="font-display text-sm font-semibold text-foreground">
+                    {t(s.title)}
+                  </h2>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                    {t(s.desc)}
+                  </p>
                 </div>
               </div>
             </section>
@@ -76,7 +80,10 @@ function MethodologyPage() {
                   <span className="font-semibold text-muted-foreground">{w.w}%</span>
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-secondary">
-                  <div className="h-full rounded-full bg-primary" style={{ width: `${w.w * 3}%` }} />
+                  <div
+                    className="h-full rounded-full bg-primary"
+                    style={{ width: `${w.w * 3}%` }}
+                  />
                 </div>
               </li>
             ))}

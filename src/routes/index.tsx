@@ -90,7 +90,9 @@ function Index() {
               <span className="grid size-10 place-items-center rounded-md bg-primary/10 text-primary">
                 <step.icon className="size-5" />
               </span>
-              <p className="mt-4 font-display text-sm font-semibold text-foreground">{t(step.title)}</p>
+              <p className="mt-4 font-display text-sm font-semibold text-foreground">
+                {t(step.title)}
+              </p>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t(step.desc)}</p>
               <span className="absolute right-5 top-5 font-display text-3xl font-bold text-border">
                 0{i + 1}

@@ -35,7 +35,8 @@ export const Route = createFileRoute("/dashboard")({
       { property: "og:title", content: "Map Dashboard — Geo-Smart" },
       {
         property: "og:description",
-        content: "Explore potential scores for sub-districts across the Bangkok Metropolitan Region.",
+        content:
+          "Explore potential scores for sub-districts across the Bangkok Metropolitan Region.",
       },
     ],
   }),
@@ -65,11 +66,11 @@ function DashboardPage() {
       province === "all"
         ? []
         : Array.from(
-        new Map(
-          zones
-            .filter((z) => z.province.en === province)
-            .map((z) => [z.district.en, z.district]),
-        ).values(),
+            new Map(
+              zones
+                .filter((z) => z.province.en === province)
+                .map((z) => [z.district.en, z.district]),
+            ).values(),
           ).sort((a, b) => a.en.localeCompare(b.en)),
     [province],
   );
@@ -129,7 +130,9 @@ function DashboardPage() {
             </h2>
             <div className="mt-3 space-y-4 text-sm">
               <div>
-                <label className="mb-1 block text-xs text-muted-foreground">{t("map.filter.province")}</label>
+                <label className="mb-1 block text-xs text-muted-foreground">
+                  {t("map.filter.province")}
+                </label>
                 <select
                   value={province}
                   onChange={(e) => {
@@ -147,7 +150,9 @@ function DashboardPage() {
                 </select>
               </div>
               <div>
-                <label className="mb-1 block text-xs text-muted-foreground">{t("map.filter.district")}</label>
+                <label className="mb-1 block text-xs text-muted-foreground">
+                  {t("map.filter.district")}
+                </label>
                 <select
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
@@ -203,7 +208,8 @@ function DashboardPage() {
                 {t("action.reset")}
               </button>
               <p className="text-xs text-muted-foreground">
-                {t("map.matched")}: <span className="font-semibold text-foreground">{filtered.length}</span>
+                {t("map.matched")}:{" "}
+                <span className="font-semibold text-foreground">{filtered.length}</span>
               </p>
             </div>
           </section>
@@ -307,7 +313,12 @@ function DashboardPage() {
                             fontSize: 12,
                           }}
                         />
-                        <Bar dataKey="value" fill="var(--color-chart-1)" radius={[0, 4, 4, 0]} barSize={12} />
+                        <Bar
+                          dataKey="value"
+                          fill="var(--color-chart-1)"
+                          radius={[0, 4, 4, 0]}
+                          barSize={12}
+                        />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -319,9 +330,15 @@ function DashboardPage() {
                   </p>
                   <div className="h-36">
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={selected.priceHistory} margin={{ left: -18, right: 8, top: 4 }}>
+                      <LineChart
+                        data={selected.priceHistory}
+                        margin={{ left: -18, right: 8, top: 4 }}
+                      >
                         <CartesianGrid stroke="var(--color-border)" strokeDasharray="3 3" />
-                        <XAxis dataKey="year" tick={{ fontSize: 10, fill: "var(--color-muted-foreground)" }} />
+                        <XAxis
+                          dataKey="year"
+                          tick={{ fontSize: 10, fill: "var(--color-muted-foreground)" }}
+                        />
                         <YAxis tick={{ fontSize: 10, fill: "var(--color-muted-foreground)" }} />
                         <Tooltip
                           contentStyle={{
@@ -349,8 +366,15 @@ function DashboardPage() {
                   </p>
                   <div className="h-40">
                     <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={selected.landUse} margin={{ left: -18, right: 8, top: 4 }} stackOffset="expand">
-                        <XAxis dataKey="year" tick={{ fontSize: 10, fill: "var(--color-muted-foreground)" }} />
+                      <AreaChart
+                        data={selected.landUse}
+                        margin={{ left: -18, right: 8, top: 4 }}
+                        stackOffset="expand"
+                      >
+                        <XAxis
+                          dataKey="year"
+                          tick={{ fontSize: 10, fill: "var(--color-muted-foreground)" }}
+                        />
                         <YAxis hide />
                         <Tooltip
                           contentStyle={{

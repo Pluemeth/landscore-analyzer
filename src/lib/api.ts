@@ -15,7 +15,9 @@ function delay<T>(value: T): Promise<T> {
 
 /** TODO: GET {THEOS2_API}/scenes?bbox=... — multi-temporal satellite scenes */
 export async function fetchTheos2Scenes(): Promise<{ id: string; capturedAt: string }[]> {
-  return delay(zones.map((z, i) => ({ id: `THEOS2-${z.id}`, capturedAt: `2025-0${(i % 9) + 1}-14` })));
+  return delay(
+    zones.map((z, i) => ({ id: `THEOS2-${z.id}`, capturedAt: `2025-0${(i % 9) + 1}-14` })),
+  );
 }
 
 /** TODO: GET {LANDX_API}/landuse?year=... — annual land-use classification */

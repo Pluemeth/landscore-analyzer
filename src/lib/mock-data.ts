@@ -93,8 +93,26 @@ type Seed = {
 
 /** Provinces with the strongest land-market pressure get a score/price uplift. */
 const provinceTier: Record<number, number> = {
-  10: 30, 11: 24, 12: 22, 13: 20, 74: 18, 20: 20, 21: 14, 24: 16, 73: 16, 26: 12,
-  83: 16, 84: 14, 90: 14, 50: 16, 30: 10, 40: 10, 77: 10, 71: 10, 76: 8, 86: 8,
+  10: 30,
+  11: 24,
+  12: 22,
+  13: 20,
+  74: 18,
+  20: 20,
+  21: 14,
+  24: 16,
+  73: 16,
+  26: 12,
+  83: 16,
+  84: 14,
+  90: 14,
+  50: 16,
+  30: 10,
+  40: 10,
+  77: 10,
+  71: 10,
+  76: 8,
+  86: 8,
 };
 
 const seeds: Seed[] = thDistricts.map((d, i) => {
@@ -119,7 +137,10 @@ const seeds: Seed[] = thDistricts.map((d, i) => {
     id: `z${d.code}`,
     name: { th: d.th, en: d.en },
     province: { th: province.th, en: province.en },
-    district: { th: `${isBangkok ? "เขต" : "อำเภอ"}${d.th}`, en: isBangkok ? `${d.en} District` : d.en },
+    district: {
+      th: `${isBangkok ? "เขต" : "อำเภอ"}${d.th}`,
+      en: isBangkok ? `${d.en} District` : d.en,
+    },
     center,
     score,
     price,
@@ -196,17 +217,49 @@ export const majorRoads: [number, number][][] = [
 ];
 
 export const economicCenters: { id: string; name: Bilingual; at: [number, number] }[] = [
-  { id: "c1", name: { th: "ศูนย์กลางธุรกิจสีลม-สาทร", en: "Silom–Sathorn CBD" }, at: [100.53, 13.72] },
-  { id: "c2", name: { th: "นิคมอุตสาหกรรมบางปู", en: "Bang Pu Industrial Estate" }, at: [100.66, 13.53] },
-  { id: "c3", name: { th: "ท่าอากาศยานสุวรรณภูมิ", en: "Suvarnabhumi Airport" }, at: [100.75, 13.69] },
-  { id: "c4", name: { th: "เมืองมหาวิทยาลัยรังสิต", en: "Rangsit University Town" }, at: [100.62, 14.02] },
+  {
+    id: "c1",
+    name: { th: "ศูนย์กลางธุรกิจสีลม-สาทร", en: "Silom–Sathorn CBD" },
+    at: [100.53, 13.72],
+  },
+  {
+    id: "c2",
+    name: { th: "นิคมอุตสาหกรรมบางปู", en: "Bang Pu Industrial Estate" },
+    at: [100.66, 13.53],
+  },
+  {
+    id: "c3",
+    name: { th: "ท่าอากาศยานสุวรรณภูมิ", en: "Suvarnabhumi Airport" },
+    at: [100.75, 13.69],
+  },
+  {
+    id: "c4",
+    name: { th: "เมืองมหาวิทยาลัยรังสิต", en: "Rangsit University Town" },
+    at: [100.62, 14.02],
+  },
 ];
 
 const owners = [
-  { name: { th: "คุณสมชาย วัฒนกิจ", en: "Somchai Wattanakij" }, phone: "081-234-5678", email: "somchai@geo-demo.co.th" },
-  { name: { th: "บจก. ภูมิทรัพย์ พร็อพเพอร์ตี้", en: "Phumsap Property Co., Ltd." }, phone: "02-118-4420", email: "sales@phumsap-demo.co.th" },
-  { name: { th: "คุณอารยา ธนโชติ", en: "Araya Thanachot" }, phone: "089-771-9034", email: "araya@geo-demo.co.th" },
-  { name: { th: "หจก. ที่ดินรุ่งเรือง", en: "Rungruang Land LP" }, phone: "02-905-7712", email: "contact@rungruang-demo.co.th" },
+  {
+    name: { th: "คุณสมชาย วัฒนกิจ", en: "Somchai Wattanakij" },
+    phone: "081-234-5678",
+    email: "somchai@geo-demo.co.th",
+  },
+  {
+    name: { th: "บจก. ภูมิทรัพย์ พร็อพเพอร์ตี้", en: "Phumsap Property Co., Ltd." },
+    phone: "02-118-4420",
+    email: "sales@phumsap-demo.co.th",
+  },
+  {
+    name: { th: "คุณอารยา ธนโชติ", en: "Araya Thanachot" },
+    phone: "089-771-9034",
+    email: "araya@geo-demo.co.th",
+  },
+  {
+    name: { th: "หจก. ที่ดินรุ่งเรือง", en: "Rungruang Land LP" },
+    phone: "02-905-7712",
+    email: "contact@rungruang-demo.co.th",
+  },
 ];
 
 const poiPool: Bilingual[][] = [

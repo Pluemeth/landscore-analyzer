@@ -49,7 +49,10 @@ export const dict = {
     th: "รวมภาพถ่าย THEOS-2, การใช้ที่ดินหลายช่วงเวลา, โครงข่ายถนน, ประชากร และราคาประเมินที่ดิน ให้เป็นคะแนนศักยภาพรายตำบลที่นำไปตัดสินใจลงทุนได้ทันที",
     en: "THEOS-2 imagery, multi-temporal land use, road networks, population and appraisal prices distilled into a sub-district potential score you can act on.",
   },
-  "home.badge": { th: "ข้อมูลตัวอย่าง • กรุงเทพฯ และปริมณฑล", en: "Sample data • Bangkok Metropolitan Region" },
+  "home.badge": {
+    th: "ข้อมูลตัวอย่าง • กรุงเทพฯ และปริมณฑล",
+    en: "Sample data • Bangkok Metropolitan Region",
+  },
   "home.pipeline": { th: "กระบวนการทำงาน", en: "How the pipeline works" },
   "home.step.input": { th: "Input — รวบรวมข้อมูล", en: "Input — Collect" },
   "home.step.input.desc": {
@@ -92,7 +95,10 @@ export const dict = {
   "map.legend": { th: "ระดับโอกาส", en: "Probability" },
   "map.legend.low": { th: "ต่ำ", en: "Low" },
   "map.legend.high": { th: "สูง", en: "High" },
-  "map.hint": { th: "คลิกพื้นที่บนแผนที่เพื่อดูรายละเอียด", en: "Click a zone on the map to inspect it" },
+  "map.hint": {
+    th: "คลิกพื้นที่บนแผนที่เพื่อดูรายละเอียด",
+    en: "Click a zone on the map to inspect it",
+  },
   "map.matched": { th: "พื้นที่ที่ตรงเงื่อนไข", en: "Matching zones" },
 
   "panel.score": { th: "คะแนนศักยภาพรวม", en: "Potential Score" },
@@ -117,7 +123,10 @@ export const dict = {
   },
   "listing.budget": { th: "งบประมาณสูงสุด (ล้านบาท)", en: "Max budget (M THB)" },
   "listing.size": { th: "ขนาดพื้นที่ขั้นต่ำ (ไร่)", en: "Min size (rai)" },
-  "listing.roadDist": { th: "ระยะห่างจากถนนหลักไม่เกิน (กม.)", en: "Max distance to major road (km)" },
+  "listing.roadDist": {
+    th: "ระยะห่างจากถนนหลักไม่เกิน (กม.)",
+    en: "Max distance to major road (km)",
+  },
   "listing.status": { th: "สถานะ", en: "Status" },
   "listing.status.sale": { th: "ขาย", en: "For sale" },
   "listing.status.rent": { th: "ให้เช่า", en: "For lease" },
@@ -236,7 +245,10 @@ export const dict = {
   "contact.email": { th: "อีเมล", en: "Email" },
   "contact.message": { th: "ข้อความ", en: "Message" },
   "contact.send": { th: "ส่งข้อความ", en: "Send message" },
-  "contact.sent": { th: "ส่งข้อความเรียบร้อย ทีมงานจะติดต่อกลับ", en: "Message sent. Our team will get back to you." },
+  "contact.sent": {
+    th: "ส่งข้อความเรียบร้อย ทีมงานจะติดต่อกลับ",
+    en: "Message sent. Our team will get back to you.",
+  },
 
   "watchlist.title": { th: "พื้นที่ที่บันทึกไว้", en: "Watchlist" },
   "watchlist.empty": {

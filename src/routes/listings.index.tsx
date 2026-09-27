@@ -54,7 +54,9 @@ function ListingsPage() {
             {t("map.filters")}
           </h2>
           <div>
-            <label className="mb-1 block text-xs text-muted-foreground">{t("listing.status")}</label>
+            <label className="mb-1 block text-xs text-muted-foreground">
+              {t("listing.status")}
+            </label>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as "all" | "sale" | "rent")}
@@ -153,7 +155,9 @@ function ListingsPage() {
                   </div>
                   <div className="flex flex-1 flex-col gap-3 p-4">
                     <div className="min-w-0">
-                      <h2 className="truncate text-sm font-semibold text-foreground">{pick(l.title)}</h2>
+                      <h2 className="truncate text-sm font-semibold text-foreground">
+                        {pick(l.title)}
+                      </h2>
                       <p className="truncate text-xs text-muted-foreground">
                         {zone ? `${pick(zone.district)} · ${pick(zone.province)}` : l.zoneId}
                       </p>

@@ -26,12 +26,42 @@ export const Route = createFileRoute("/data-sources")({
 function DataSourcesPage() {
   const { t } = useI18n();
   const sources = [
-    { icon: Satellite, title: "src.theos", desc: "src.theos.d", records: "1,248", updated: "2025-11-02" },
-    { icon: Database, title: "src.landx", desc: "src.landx.d", records: "4,610", updated: "2025-09-18" },
-    { icon: Map, title: "src.sphere", desc: "src.sphere.d", records: "12,904", updated: "2025-12-01" },
-    { icon: RouteIcon, title: "src.roads", desc: "src.roads.d", records: "8,375", updated: "2025-10-22" },
+    {
+      icon: Satellite,
+      title: "src.theos",
+      desc: "src.theos.d",
+      records: "1,248",
+      updated: "2025-11-02",
+    },
+    {
+      icon: Database,
+      title: "src.landx",
+      desc: "src.landx.d",
+      records: "4,610",
+      updated: "2025-09-18",
+    },
+    {
+      icon: Map,
+      title: "src.sphere",
+      desc: "src.sphere.d",
+      records: "12,904",
+      updated: "2025-12-01",
+    },
+    {
+      icon: RouteIcon,
+      title: "src.roads",
+      desc: "src.roads.d",
+      records: "8,375",
+      updated: "2025-10-22",
+    },
     { icon: Users, title: "src.pop", desc: "src.pop.d", records: "2,196", updated: "2025-08-30" },
-    { icon: TrendingUp, title: "src.price", desc: "src.price.d", records: "6,540", updated: "2026-01-12" },
+    {
+      icon: TrendingUp,
+      title: "src.price",
+      desc: "src.price.d",
+      records: "6,540",
+      updated: "2026-01-12",
+    },
   ] as const;
 
   return (

@@ -1,6 +1,10 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-const Ctx = createContext<{ ids: string[]; toggle: (id: string) => void; has: (id: string) => boolean }>({
+const Ctx = createContext<{
+  ids: string[];
+  toggle: (id: string) => void;
+  has: (id: string) => boolean;
+}>({
   ids: [],
   toggle: () => {},
   has: () => false,

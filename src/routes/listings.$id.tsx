@@ -18,7 +18,8 @@ export const Route = createFileRoute("/listings/$id")({
       { property: "og:title", content: "Parcel detail — Geo-Smart" },
       {
         property: "og:description",
-        content: "Location, satellite context and surroundings for a land parcel in an emerging zone.",
+        content:
+          "Location, satellite context and surroundings for a land parcel in an emerging zone.",
       },
     ],
   }),
@@ -47,7 +48,10 @@ function ListingDetail() {
   }
 
   return (
-    <AppShell title={pick(listing.title)} subtitle={`${pick(zone.district)} · ${pick(zone.province)}`}>
+    <AppShell
+      title={pick(listing.title)}
+      subtitle={`${pick(zone.district)} · ${pick(zone.province)}`}
+    >
       <div className="space-y-4 p-4 sm:p-6">
         <Link
           to="/listings"
@@ -71,12 +75,17 @@ function ListingDetail() {
                     label: t("listing.price"),
                     value: `฿${formatTHB(listing.priceTHB)}`,
                   },
-                  { label: t("listing.roadDist"), value: `${listing.roadDistanceKm} ${t("common.km")}` },
+                  {
+                    label: t("listing.roadDist"),
+                    value: `${listing.roadDistanceKm} ${t("common.km")}`,
+                  },
                   { label: t("listing.zoneScore"), value: String(zone.score) },
                 ].map((s) => (
                   <div key={s.label} className="bg-card px-4 py-3">
                     <p className="truncate text-[0.68rem] text-muted-foreground">{s.label}</p>
-                    <p className="mt-0.5 font-display text-sm font-bold text-foreground">{s.value}</p>
+                    <p className="mt-0.5 font-display text-sm font-bold text-foreground">
+                      {s.value}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -89,7 +98,13 @@ function ListingDetail() {
               <div className="h-72">
                 <ZoneMap
                   zones={[zone]}
-                  layers={{ landuse: false, roads: true, population: false, price: false, centers: true }}
+                  layers={{
+                    landuse: false,
+                    roads: true,
+                    population: false,
+                    price: false,
+                    centers: true,
+                  }}
                   selectedId={zone.id}
                   onSelect={() => {}}
                 />
@@ -100,7 +115,10 @@ function ListingDetail() {
           <aside className="space-y-4">
             <section className="rounded-lg border border-border bg-card p-4">
               <p className="text-xs text-muted-foreground">{t("listing.zoneScore")}</p>
-              <p className="font-display text-4xl font-bold" style={{ color: scoreColor(zone.score) }}>
+              <p
+                className="font-display text-4xl font-bold"
+                style={{ color: scoreColor(zone.score) }}
+              >
                 {zone.score}
               </p>
               <Link
